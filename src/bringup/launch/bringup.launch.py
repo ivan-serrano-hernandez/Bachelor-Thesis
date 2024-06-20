@@ -23,7 +23,7 @@ def generate_launch_description():
         parameters= [
             {'half': False}, 
             {'silent': True}, 
-            {'image_size': 640}
+            {'image_size': 320}
         ]
     )
 
@@ -35,7 +35,7 @@ def generate_launch_description():
         parameters= [
             {'half': True}, 
             {'silent': True}, 
-            {'image_size': 640}
+            {'image_size': 320}
         ]
     )
 
@@ -47,7 +47,7 @@ def generate_launch_description():
         parameters= [
             {'half': False}, 
             {'silent': True}, 
-            {'image_size': 640}
+            {'image_size': 320}
         ]
     )
 

@@ -1,25 +1,26 @@
-FROM ros:humble 
+FROM dustynv/ros:humble-pytorch-l4t-r34.1.0
+
 WORKDIR /app
+COPY . /app
 
-COPY . /app 
+# Add manually ubuntu public key
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 1A127079A92F09ED
 
-# required dependencies
-    # pip 3.9
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    python3-pip
 
+# Install necessary dependencies including gcc
+RUN apt-get update \
+    && apt-get install -y wget build-essential git cmake libzmq3-dev pkg-config curl vim python3 python3-pip sudo \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-
-RUN python3 -m pip install --upgrade pip>=3.19
-    # python packages
-RUN python3 -m pip install -r requirements
-
-RUN apt-get update
-RUN apt-get install vim -y
+RUN pip install -r requirements
 
 
+#
+# Setup environment variables
+#
 
 ENV TERM xterm-256color
 CMD ["bash", "-l"]
+
+

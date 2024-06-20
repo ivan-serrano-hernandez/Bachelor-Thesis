@@ -1,44 +1,37 @@
-import sys
-
 # add the path to current package
 PACKAGE_PATH = './src/main/main'
 SOURCE_PATH = './src/'
 
+import sys
 sys.path.append(PACKAGE_PATH)
 sys.path.append(SOURCE_PATH)
 
-import rclpy
-from rclpy.node import Node
-from sensor_msgs.msg import Image 
-from cv_bridge import CvBridge
-from std_msgs.msg import String
 
 
-import cv2
-import torch
-import torch.backends.cudnn as cudnn
-from numpy import random
-import numpy as np
-
-from models.experimental import attempt_load
+from collections import OrderedDict, namedtuple
+from sensor_msgs.msg import Image
+from pathlib import Path
+from PIL import Image
+from custom_interface.srv import FrameInfo
+import time
+from std_msgs.msg import Bool
+from glob import glob
+import os
+from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
+from utils.plots import plot_one_box
 from utils.general import check_img_size, non_max_suppression, \
     scale_coords,  set_logging, letterbox, whereIAm, xyxy2xywh
-from utils.plots import plot_one_box
-from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
-
-
-
+from models.experimental import attempt_load
 import numpy as np
-import os
-from glob import glob
-import sys
-
-from std_msgs.msg import Bool
-import time
-
-from custom_interface.srv import FrameInfo
-import rclpy
+from numpy import random
+import torch.backends.cudnn as cudnn
+import torch
+import cv2
+from std_msgs.msg import String
 from rclpy.node import Node
+import rclpy
+import tensorrt as trt
+
 
 class TrailClientNode(Node):
     def __init__(self):
@@ -49,6 +42,7 @@ class TrailClientNode(Node):
             self.get_logger().info('service not available, waiting again...')
         self.req = FrameInfo.Request()
 
+
 class Receiver(Node):
     def __init__(self):
         # create image subscriber
@@ -58,72 +52,130 @@ class Receiver(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('half', False),  # Establece el valor predeterminado como False si no se proporciona
+                # Establece el valor predeterminado como False si no se proporciona
+                ('half', False),
                 ('silent', False),
                 ('image_size', 640)
             ]
         )
-        
-        self.silent, self.imgsz = self.get_parameter('silent').value, self.get_parameter('image_size').value
+
+        self.silent, self.imgsz = self.get_parameter(
+            'silent').value, self.get_parameter('image_size').value
 
         whereIAm(os.getpid())
 
-            # Initialize
-        set_logging()
-        self.device = select_device('')
-        self.half = self.get_parameter('half').value  # half precision only supported on CUDA
-        self.get_logger().info(f'silent: {self.silent} || half: {self.half} || image size: {self.imgsz}')
+        # load the model ************************************************************************************
 
-            # Load model
-        self.model = attempt_load('yolov7.pt', map_location=self.device)  # load FP32 model
-        self.stride = int(self.model.stride.max())  # model stride
-        self.imgsz = check_img_size(self.imgsz, s=self.stride)  # check img_size
+        w = 'yolov7-tiny-320-16.trt'
+        self.device = torch.device('cuda:0')
 
-        self.model = TracedModel(self.model, self.device, self.imgsz)
+        # Infer the engine
 
-        if self.half:
-            self.model.half()  # to FP16
+        Binding = namedtuple(
+            'Binding', ('name', 'dtype', 'shape', 'data', 'ptr'))
+        logger = trt.Logger(trt.Logger.INFO)
+        trt.init_libnvinfer_plugins(logger, namespace="")
+        with open(w, 'rb') as f, trt.Runtime(logger) as runtime:
+            self.mymodel = runtime.deserialize_cuda_engine(f.read())
 
-            # Get names and colors
-        self.names = self.model.module.names if hasattr(self.model, 'module') else self.model.names
-        self.colors = [[random.randint(0, 255) for _ in range(3)] for _ in self.names]
+        self.bindings = OrderedDict()
+        for index in range(self.mymodel.num_bindings):
+            name = self.mymodel.get_binding_name(index)
+            dtype = trt.nptype(self.mymodel.get_binding_dtype(index))
+            shape = tuple(self.mymodel.get_binding_shape(index))
+            data = torch.from_numpy(
+                np.empty(shape, dtype=np.dtype(dtype))).to(self.device)
+            self.bindings[name] = Binding(
+                name, dtype, shape, data, int(data.data_ptr()))
 
-            # Run inference
-        if self.device.type != 'cpu':
-            self.model(torch.zeros(1, 3, self.imgsz, self.imgsz).to(self.device).type_as(next(self.model.parameters())))  # run once
-        self.old_img_w = self.old_img_h = self.imgsz
-        self.old_img_b = 1
+        self.binding_addrs = OrderedDict((n, d.ptr)
+                                         for n, d in self.bindings.items())
+        self.mycontext = self.mymodel.create_execution_context()
 
+        self.names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
+                      'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
+                      'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
+                      'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard',
+                      'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
+                      'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
+                      'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
+                      'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
+                      'hair drier', 'toothbrush']
+        self.colors = {name: [random.randint(0, 255) for _ in range(
+            3)] for i, name in enumerate(self.names)}
+        # warmup for 10 times
+        for _ in range(10):
+            tmp = torch.randn(1,3,640,640).to(self.device)
+            self.binding_addrs['images'] = int(tmp.data_ptr())
+            self.mycontext.execute_v2(list(self.binding_addrs.values()))
 
         # create subscription to the publisher ******************************
         self.subscription = self.create_subscription(
-        Bool, 
-        'framerate', 
-        self.listener_callback, 
-        1)
+            Bool,
+            'framerate',
+            self.listener_callback,
+            1)
 
-        self.subscription # prevent unused variable warning
-        
+        self.subscription  # prevent unused variable warning
+
         self.frame_counter = 0
         self.trail_client = TrailClientNode()
 
         # Create a VideoCapture object
-        self.cap = cv2.VideoCapture(os.path.join(SOURCE_PATH,'road_traffic.mp4'))
+        self.cap = cv2.VideoCapture(
+            os.path.join(SOURCE_PATH, 'road_traffic.mp4'))
 
-        #logfile
-            # first erase contents
+        # logfile
+        # first erase contents
         with open('./traces/trail_subscriber', "w") as file:
             pass  # Do nothing, file is truncated
         self.logfile = open('./traces/trail_subscriber', "w")
         self.batch = []
         self.batchFull = False
 
+    def letterbox(self, im, new_shape=(640, 640), color=(114, 114, 114), auto=True, scaleup=True, stride=32):
+        # Resize and pad image while meeting stride-multiple constraints
+        shape = im.shape[:2]  # current shape [height, width]
+        if isinstance(new_shape, int):
+            new_shape = (new_shape, new_shape)
+
+        # Scale ratio (new / old)
+        r = min(new_shape[0] / shape[0], new_shape[1] / shape[1])
+        # only scale down, do not scale up (for better val mAP)
+        if not scaleup:
+            r = min(r, 1.0)
+
+        # Compute padding
+        new_unpad = int(round(shape[1] * r)), int(round(shape[0] * r))
+        dw, dh = new_shape[1] - new_unpad[0], new_shape[0] - \
+            new_unpad[1]  # wh padding
+
+        if auto:  # minimum rectangle
+            dw, dh = np.mod(dw, stride), np.mod(dh, stride)  # wh padding
+
+        dw /= 2  # divide padding into 2 sides
+        dh /= 2
+
+        if shape[::-1] != new_unpad:  # resize
+            im = cv2.resize(im, new_unpad, interpolation=cv2.INTER_LINEAR)
+        top, bottom = int(round(dh - 0.1)), int(round(dh + 0.1))
+        left, right = int(round(dw - 0.1)), int(round(dw + 0.1))
+        im = cv2.copyMakeBorder(
+            im, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  # add border
+        return im, r, (dw, dh)
+
+    def postprocess(self, boxes, r, dwdh):
+        dwdh = torch.tensor(dwdh*2).to(boxes.device)
+        boxes -= dwdh
+        boxes /= r
+        return boxes
 
     def listener_callback(self, msg):
         if not msg.data:
             self.trail_client.req.nframe = -1
 
-            trail_future = self.trail_client.cli.call_async(self.trail_client.req)
+            trail_future = self.trail_client.cli.call_async(
+                self.trail_client.req)
             rclpy.spin_until_future_complete(self.trail_client, trail_future)
             time.sleep(1)
             sys.exit()
@@ -131,8 +183,8 @@ class Receiver(Node):
         ret, frame = self.cap.read()
 
         if ret:
-            self.logfile.write(f'{time.time()} : frame {self.frame_counter} pace received\n')
-
+            self.logfile.write(
+                f'{time.time()} : frame {self.frame_counter} pace received\n')
 
             # empty message request
             self.trail_client.req.x_coord = []
@@ -140,76 +192,70 @@ class Receiver(Node):
             self.trail_client.req.classes = []
             self.trail_client.req.classes_confidence = []
 
-            img = letterbox(frame, self.imgsz, self.stride)[0]
-            img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
-            img = np.ascontiguousarray(img)
+            # Format the frame
+            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            image = img.copy()
+            image, ratio, dwdh = self.letterbox(image, auto=False)
+            image = image.transpose((2, 0, 1))
+            image = np.expand_dims(image, 0)
+            image = np.ascontiguousarray(image)
 
-            # Frame formatting 
-            img = torch.from_numpy(img).to(self.device)
-            img = img.half() if self.half else img.float()  # uint8 to fp16/32
-            img /= 255.0  # 0 - 255 to 0.0 - 1.0
-            if img.ndimension() == 3:
-                img = img.unsqueeze(0)
+            im = image.astype(np.float32)
 
-            # Inference
-            with torch.no_grad():   # Calculating gradients would cause a GPU memory leak
-                pred = self.model(img, augment=True)[0]
+            im = torch.from_numpy(im).to(self.device)
+            im /= 255
 
-            if not self.batchFull:
-                self.batch.append(pred)
-                self.batchFull = (len(self.batch) == 3)
-            else:
+            # Compute the prediction
+            self.binding_addrs['images'] = int(im.data_ptr())
+            self.mycontext.execute_v2(list(self.binding_addrs.values()))
 
-                batchPred = (self.batch[0] + self.batch[1] + self.batch[2])/3.0
-                self.batch.pop(0)
-                self.batch.append(pred)
-                # Non Max suppression 
-                predNms = non_max_suppression(batchPred, 0.5, 0.5, classes=None, agnostic=True)
+            nums = self.bindings['num_dets'].data
+            boxes = self.bindings['det_boxes'].data
+            scores = self.bindings['det_scores'].data
+            classes = self.bindings['det_classes'].data
 
-                # Process detections and add them to current frame
-                for i, det in enumerate(predNms):
-                    im0 = frame
+            boxes = boxes[0, :nums[0][0]]
+            scores = scores[0, :nums[0][0]]
+            classes = classes[0, :nums[0][0]]
 
-                    gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
-                    if len(det):
-                        # Rescale boxes from img_size to im0 size
-                        det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
+            for box, score, cl in zip(boxes, scores, classes):
+                box = self.postprocess(box, ratio, dwdh).round().int()
+                name = self.names[cl]
+                color = self.colors[name]
+                nameNconf = ' ' + str(round(float(score), 3))
 
-                        # Write results
-                        for *xyxy, conf, cls in reversed(det):
-                            label = f'{self.names[int(cls)]} {conf:.2f}'
-                            plot_one_box(xyxy, im0, label=label, color=self.colors[int(cls)], line_thickness=1)
-                    
-                            xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                            self.trail_client.req.x_coord.append((float(xywh[0]) + (float(xywh[2])/2.0)))
-                            self.trail_client.req.y_coord.append((float(xywh[1]) + (float(xywh[3])/2.0)))
-                            self.trail_client.req.classes.append(int(cls))
-                            self.trail_client.req.classes_confidence.append(float(conf))
-                
+                x_min, y_min, x_max, y_max = map(int, box)
 
-                if not self.silent:
-                    cv2.imshow('frame', im0)
-                    # Press Q on keyboard to exit 
-                    if cv2.waitKey(25) & 0xFF == ord('q'): 
-                        return
+                cv2.rectangle(img, (x_min, y_min),
+                              (x_max, y_max), color, int(2))
+                cv2.putText(img, nameNconf, (int(box[0]), int(
+                    box[1]) - 2), cv2.FONT_HERSHEY_SIMPLEX, 0.75, color, thickness=2)
+
+                self.trail_client.req.x_coord.append((x_min + x_max)/2.0)
+                self.trail_client.req.y_coord.append((y_min + y_max)/2.0)
+                self.trail_client.req.classes.append(name)
+                self.trail_client.req.classes_confidence.append(
+                    float(round(float(score), 3)))
 
             # send data to reviewer node only after warmup
             self.trail_client.req.node_id = 1
             self.trail_client.req.nframe = self.frame_counter
 
+            trail_future = self.trail_client.cli.call_async(
+                self.trail_client.req)
+            rclpy.spin_until_future_complete(self.trail_client, trail_future)
 
-            trail_future = self.trail_client.cli.call_async(self.trail_client.req)
-            rclpy.spin_until_future_complete(self.trail_client, trail_future)        
-
-            self.logfile.write(f'{time.time()} : frame {self.frame_counter} just processed\n')
-        else: 
+            self.logfile.write(
+                f'{time.time()} : frame {self.frame_counter} just processed\n')
+        else:
             sys.exit()
 
-        self.frame_counter+=1
+        self.frame_counter += 1
 
     def __del__(self):
         self.logfile.close()
         sys.exit()
+
 
 def main():
 
@@ -224,6 +270,7 @@ def main():
     # when the garbage collector destroys the node object)
     subscriber.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
