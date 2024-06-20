@@ -12,7 +12,7 @@
 
   <depend>cv2</depend>
   <depend>ps</depend>
-  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
   <depend>cv_bridge</depend>
   <depend>sys</depend>
   <depend>numpy</depend>

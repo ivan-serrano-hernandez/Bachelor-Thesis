@@ -1,0 +1,28 @@
+[0.489s] Invoking command in '/home/iserran1/Documents/tfg/src/main': CMAKE_PREFIX_PATH=/home/iserran1/Documents/tfg/install/custom_interface:/home/iserran1/Documents/tfg/install/bringup PYTHONPATH=/home/iserran1/Documents/tfg/build/main/prefix_override:/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/main build --build-base /home/iserran1/Documents/tfg/build/main/build install --record /home/iserran1/Documents/tfg/build/main/install.log --single-version-externally-managed install_data
+[0.683s] running egg_info
+[0.683s] writing ../../build/main/main.egg-info/PKG-INFO
+[0.684s] writing dependency_links to ../../build/main/main.egg-info/dependency_links.txt
+[0.684s] writing entry points to ../../build/main/main.egg-info/entry_points.txt
+[0.684s] writing requirements to ../../build/main/main.egg-info/requires.txt
+[0.684s] writing top-level names to ../../build/main/main.egg-info/top_level.txt
+[0.686s] reading manifest file '../../build/main/main.egg-info/SOURCES.txt'
+[0.687s] writing manifest file '../../build/main/main.egg-info/SOURCES.txt'
+[0.687s] running build
+[0.687s] running build_py
+[0.687s] copying reviewer/reviewer.py -> /home/iserran1/Documents/tfg/build/main/build/lib/reviewer
+[0.688s] running install
+[0.688s] running install_lib
+[0.688s] copying /home/iserran1/Documents/tfg/build/main/build/lib/reviewer/reviewer.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/reviewer
+[0.689s] byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/reviewer/reviewer.py to reviewer.cpython-310.pyc
+[0.690s] running install_data
+[0.690s] running install_egg_info
+[0.692s] removing '/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main-0.0.0-py3.10.egg-info' (and everything under it)
+[0.693s] Copying ../../build/main/main.egg-info to /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main-0.0.0-py3.10.egg-info
+[0.694s] running install_scripts
+[0.711s] Installing main_subscriber script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.711s] Installing publisher script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.711s] Installing reviewer script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.711s] Installing tiebreaker script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.712s] Installing trail_subscriber script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.712s] writing list of installed files to '/home/iserran1/Documents/tfg/build/main/install.log'
+[0.730s] Invoked command in '/home/iserran1/Documents/tfg/src/main' returned '0': CMAKE_PREFIX_PATH=/home/iserran1/Documents/tfg/install/custom_interface:/home/iserran1/Documents/tfg/install/bringup PYTHONPATH=/home/iserran1/Documents/tfg/build/main/prefix_override:/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/main build --build-base /home/iserran1/Documents/tfg/build/main/build install --record /home/iserran1/Documents/tfg/build/main/install.log --single-version-externally-managed install_data

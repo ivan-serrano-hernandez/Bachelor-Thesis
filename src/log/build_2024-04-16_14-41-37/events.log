@@ -1,0 +1,5 @@
+[0.000000] (-) TimerEvent: {}
+[0.000394] (-) JobUnselected: {'identifier': 'custom_interface'}
+[0.000426] (-) JobUnselected: {'identifier': 'main'}
+[0.000443] (-) JobUnselected: {'identifier': 'synack_service'}
+[0.000458] (-) EventReactorShutdown: {}

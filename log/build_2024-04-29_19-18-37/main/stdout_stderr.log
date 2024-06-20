@@ -1,0 +1,38 @@
+running egg_info
+writing ../../build/main/main.egg-info/PKG-INFO
+writing dependency_links to ../../build/main/main.egg-info/dependency_links.txt
+writing entry points to ../../build/main/main.egg-info/entry_points.txt
+writing requirements to ../../build/main/main.egg-info/requires.txt
+writing top-level names to ../../build/main/main.egg-info/top_level.txt
+reading manifest file '../../build/main/main.egg-info/SOURCES.txt'
+writing manifest file '../../build/main/main.egg-info/SOURCES.txt'
+running build
+running build_py
+copying main_subscriber/instance1.py -> /home/iserran1/Documents/tfg/build/main/build/lib/main_subscriber
+copying pub/publisher.py -> /home/iserran1/Documents/tfg/build/main/build/lib/pub
+copying reviewer/reviewer.py -> /home/iserran1/Documents/tfg/build/main/build/lib/reviewer
+copying tiebreaker/instance3.py -> /home/iserran1/Documents/tfg/build/main/build/lib/tiebreaker
+copying trail_subscriber/instance2.py -> /home/iserran1/Documents/tfg/build/main/build/lib/trail_subscriber
+running install
+running install_lib
+copying /home/iserran1/Documents/tfg/build/main/build/lib/main_subscriber/instance1.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main_subscriber
+copying /home/iserran1/Documents/tfg/build/main/build/lib/pub/publisher.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/pub
+copying /home/iserran1/Documents/tfg/build/main/build/lib/reviewer/reviewer.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/reviewer
+copying /home/iserran1/Documents/tfg/build/main/build/lib/tiebreaker/instance3.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/tiebreaker
+copying /home/iserran1/Documents/tfg/build/main/build/lib/trail_subscriber/instance2.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/trail_subscriber
+byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main_subscriber/instance1.py to instance1.cpython-310.pyc
+byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/pub/publisher.py to publisher.cpython-310.pyc
+byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/reviewer/reviewer.py to reviewer.cpython-310.pyc
+byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/tiebreaker/instance3.py to instance3.cpython-310.pyc
+byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/trail_subscriber/instance2.py to instance2.cpython-310.pyc
+running install_data
+running install_egg_info
+removing '/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/main/main.egg-info to /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main-0.0.0-py3.10.egg-info
+running install_scripts
+Installing main_subscriber script to /home/iserran1/Documents/tfg/install/main/lib/main
+Installing publisher script to /home/iserran1/Documents/tfg/install/main/lib/main
+Installing reviewer script to /home/iserran1/Documents/tfg/install/main/lib/main
+Installing tiebreaker script to /home/iserran1/Documents/tfg/install/main/lib/main
+Installing trail_subscriber script to /home/iserran1/Documents/tfg/install/main/lib/main
+writing list of installed files to '/home/iserran1/Documents/tfg/build/main/install.log'

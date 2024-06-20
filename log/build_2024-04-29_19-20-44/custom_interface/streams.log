@@ -1,0 +1,148 @@
+[0.006s] Invoking command in '/home/iserran1/Documents/tfg/build/custom_interface': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/iserran1/Documents/tfg/install/main:/opt/ros/humble /usr/bin/cmake --build /home/iserran1/Documents/tfg/build/custom_interface -- -j12 -l12
+[0.033s] [ 12%] Built target custom_interface__cpp
+[0.033s] [ 12%] Built target custom_interface__rosidl_generator_c
+[0.045s] [ 12%] Built target ament_cmake_python_copy_custom_interface
+[0.046s] [ 22%] Built target custom_interface__rosidl_typesupport_introspection_cpp
+[0.050s] [ 45%] Built target custom_interface__rosidl_typesupport_c
+[0.050s] [ 45%] Built target custom_interface__rosidl_typesupport_fastrtps_cpp
+[0.050s] [ 51%] Built target custom_interface__rosidl_typesupport_cpp
+[0.052s] [ 61%] Built target custom_interface__rosidl_typesupport_introspection_c
+[0.052s] [ 70%] Built target custom_interface__rosidl_typesupport_fastrtps_c
+[0.063s] [ 70%] Built target custom_interface
+[0.073s] [ 74%] Built target custom_interface__py
+[0.085s] [ 80%] Built target custom_interface__rosidl_generator_py
+[0.096s] [ 87%] Built target custom_interface__rosidl_typesupport_fastrtps_c__pyext
+[0.100s] [ 93%] Built target custom_interface__rosidl_typesupport_c__pyext
+[0.101s] [100%] Built target custom_interface__rosidl_typesupport_introspection_c__pyext
+[0.183s] running egg_info
+[0.184s] writing custom_interface.egg-info/PKG-INFO
+[0.184s] writing dependency_links to custom_interface.egg-info/dependency_links.txt
+[0.184s] writing top-level names to custom_interface.egg-info/top_level.txt
+[0.185s] reading manifest file 'custom_interface.egg-info/SOURCES.txt'
+[0.185s] writing manifest file 'custom_interface.egg-info/SOURCES.txt'
+[0.207s] [100%] Built target ament_cmake_python_build_custom_interface_egg
+[0.217s] Invoked command in '/home/iserran1/Documents/tfg/build/custom_interface' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/iserran1/Documents/tfg/install/main:/opt/ros/humble /usr/bin/cmake --build /home/iserran1/Documents/tfg/build/custom_interface -- -j12 -l12
+[0.249s] Invoking command in '/home/iserran1/Documents/tfg/build/custom_interface': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/iserran1/Documents/tfg/install/main:/opt/ros/humble /usr/bin/cmake --install /home/iserran1/Documents/tfg/build/custom_interface
+[0.253s] -- Install configuration: ""
+[0.253s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/ament_index/resource_index/rosidl_interfaces/custom_interface
+[0.253s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface
+[0.253s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv
+[0.253s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/frame_info.h
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__type_support.h
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__functions.h
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__functions.c
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__struct.h
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg/rosidl_generator_c__visibility_control.h
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/library_path.sh
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/library_path.dsv
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_generator_c.so
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail
+[0.254s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__rosidl_typesupport_fastrtps_c.h
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_typesupport_fastrtps_c.so
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__rosidl_typesupport_introspection_c.h
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__type_support.c
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_typesupport_introspection_c.so
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_typesupport_c.so
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/frame_info.hpp
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__traits.hpp
+[0.255s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__struct.hpp
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__builder.hpp
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__rosidl_typesupport_fastrtps_cpp.hpp
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/dds_fastrtps
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_typesupport_fastrtps_cpp.so
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__type_support.cpp
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/include/custom_interface/custom_interface/srv/detail/frame_info__rosidl_typesupport_introspection_cpp.hpp
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_typesupport_introspection_cpp.so
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_typesupport_cpp.so
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/pythonpath.sh
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/pythonpath.dsv
+[0.256s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface-0.0.0-py3.10.egg-info
+[0.257s] -- Installing: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface-0.0.0-py3.10.egg-info/SOURCES.txt
+[0.257s] -- Installing: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface-0.0.0-py3.10.egg-info/dependency_links.txt
+[0.257s] -- Installing: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface-0.0.0-py3.10.egg-info/top_level.txt
+[0.257s] -- Installing: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface-0.0.0-py3.10.egg-info/PKG-INFO
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/custom_interface_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/_custom_interface_s.ep.rosidl_typesupport_c.c
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/libcustom_interface__rosidl_generator_py.so
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/__init__.py
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/srv
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/srv/__init__.py
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/srv/_frame_info_s.c
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/srv/_frame_info.py
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/_custom_interface_s.ep.rosidl_typesupport_fastrtps_c.c
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/custom_interface_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/_custom_interface_s.ep.rosidl_typesupport_introspection_c.c
+[0.257s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/custom_interface_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[0.271s] Listing '/home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface'...
+[0.271s] Listing '/home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/srv'...
+[0.273s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/custom_interface_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/custom_interface_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages/custom_interface/custom_interface_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/lib/libcustom_interface__rosidl_generator_py.so
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/srv/FrameInfo.idl
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/srv/FrameInfo.srv
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/srv/FrameInfo_Request.msg
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/srv/FrameInfo_Response.msg
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/ament_index/resource_index/package_run_dependencies/custom_interface
+[0.274s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/ament_index/resource_index/parent_prefix_path/custom_interface
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/ament_prefix_path.sh
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/ament_prefix_path.dsv
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/path.sh
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/environment/path.dsv
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/local_setup.bash
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/local_setup.sh
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/local_setup.zsh
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/local_setup.dsv
+[0.275s] -- Installing: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/package.dsv
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/ament_index/resource_index/packages/custom_interface
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_generator_cExport.cmake
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_generator_cExport-noconfig.cmake
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_typesupport_fastrtps_cExport.cmake
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_introspection_cExport.cmake
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[0.275s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_cExport.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_cExport-noconfig.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_generator_cppExport.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_typesupport_fastrtps_cppExport.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_introspection_cppExport.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_cppExport.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interface__rosidl_typesupport_cppExport-noconfig.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_generator_pyExport.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/export_custom_interface__rosidl_generator_pyExport-noconfig.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/rosidl_cmake-extras.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/ament_cmake_export_libraries-extras.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/ament_cmake_export_targets-extras.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.276s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[0.277s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interfaceConfig.cmake
+[0.277s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/cmake/custom_interfaceConfig-version.cmake
+[0.277s] -- Up-to-date: /home/iserran1/Documents/tfg/install/custom_interface/share/custom_interface/package.xml
+[0.278s] Invoked command in '/home/iserran1/Documents/tfg/build/custom_interface' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/iserran1/Documents/tfg/install/main:/opt/ros/humble /usr/bin/cmake --install /home/iserran1/Documents/tfg/build/custom_interface

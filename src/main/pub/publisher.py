@@ -3,11 +3,11 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image # Image is the message type
-from cv_bridge import CvBridge
-import cv2
+
+import sys
 import os
 # msg type
-from std_msgs.msg import String
+from std_msgs.msg import Bool
 import time
 
 
@@ -19,48 +19,68 @@ class Publisher(Node):
         # node name
         super().__init__('publisher')
 
-        current_directory = os.getcwd()
-        print("Current directory:", current_directory)
-
-        # Image publisher with ten images
-        self.publisher_ = self.create_publisher(Image, 'video_frames', 1)
-        self.nframe = 0
-        # message every 0.1 seconds
-        timer_period = 1.0
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-            
-        # Create a VideoCapture object
-        self.cap = cv2.VideoCapture(os.path.join(SOURCE_PATH,'road_traffic.mp4'))
-            
-        # Used to convert between ROS and OpenCV images
-        self.br = CvBridge()
-
         #logfile
             # first erase contents
-        with open('./traces/publisher', "w") as file:
+        with open('./traces/publisher', "w") as self.logfile:
             pass  # Do nothing, file is truncated
+
         self.logfile = open('./traces/publisher', "w")
 
-    def timer_callback(self):
-        self.logfile.write(f'{time.time()} : frame {self.nframe} just published\n')
-
-        ret, frame = self.cap.read()
-          
-        if ret == True:
-            # get frame if ok and conver to imgms
-            self.publisher_.publish(self.br.cv2_to_imgmsg(frame))
-            self.nframe+=1
-        else:
-            exit()  
-    
-    def __del__(self):
-        self.logfile.close()
+        # Image publisher with ten images
+        self.publisher_ = self.create_publisher(Bool, 'framerate', 1)
+        self.nframe = 0
+        
+        # warmup
+        self.timer_firstLoad = self.create_timer(0.1, self.timer_callback_firstLoad)
         
 
-def main(args=None):
+    def timer_callback_firstLoad(self):
+        # erase timer
+        msg = Bool()
+        msg.data = True
+        self.publisher_.publish(msg)
 
+
+        self.timer_firstLoad.cancel()
+        time.sleep(10)
+        self.warmup_timer = self.create_timer(0.8, self.timer_callback_warmup)
+
+
+    def timer_callback_warmup(self):
+        msg = Bool()
+        msg.data = True
+        self.publisher_.publish(msg)
+        
+        self.logfile.write(f'{time.time()} : frame {self.nframe} paced\n')
+        self.nframe+=1
+
+        if self.nframe >= 9:
+            self.warmup_timer.cancel()
+            self.runtimer_timer = self.create_timer((1.0/30.0), self.timer_callback)
+
+
+    def timer_callback(self):
+
+        if self.nframe >= 299:
+            # get frame if ok and conver to imgms
+            msg = Bool()
+            msg.data = False
+            self.publisher_.publish(msg)
+            time.sleep(1) # give enough time to shutdown all running nodes
+            sys.exit()
+        else:
+            # get frame if ok and conver to imgms
+            msg = Bool()
+            msg.data = True
+            self.publisher_.publish(msg)
+            
+            self.logfile.write(f'{time.time()} : frame {self.nframe} paced\n')
+            self.nframe+=1
+
+
+def main(args=None):
     rclpy.init(args=args)
-    time.sleep(5)
+    
     publisher = Publisher()
 
     rclpy.spin(publisher)

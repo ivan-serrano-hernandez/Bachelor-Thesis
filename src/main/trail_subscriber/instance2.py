@@ -22,7 +22,7 @@ import numpy as np
 
 from models.experimental import attempt_load
 from utils.general import check_img_size, non_max_suppression, \
-    scale_coords,  set_logging, letterbox, whereIAm
+    scale_coords,  set_logging, letterbox, whereIAm, xyxy2xywh
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 
@@ -31,13 +31,9 @@ from utils.torch_utils import select_device, load_classifier, time_synchronized,
 import numpy as np
 import os
 from glob import glob
+import sys
 
-
-import matplotlib.pyplot as plt
-import argparse
-
-import multiprocessing
-import utils
+from std_msgs.msg import Bool
 import time
 
 from custom_interface.srv import FrameInfo
@@ -59,14 +55,24 @@ class Receiver(Node):
         super().__init__('trail_instance')
 
         # intialize the model ***********************************************
-        self.silent, self.imgsz = True, 640
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ('half', False),  # Establece el valor predeterminado como False si no se proporciona
+                ('silent', False),
+                ('image_size', 640)
+            ]
+        )
+        
+        self.silent, self.imgsz = self.get_parameter('silent').value, self.get_parameter('image_size').value
 
         whereIAm(os.getpid())
 
             # Initialize
         set_logging()
         self.device = select_device('')
-        self.half = False  # half precision only supported on CUDA
+        self.half = self.get_parameter('half').value  # half precision only supported on CUDA
+        self.get_logger().info(f'silent: {self.silent} || half: {self.half} || image size: {self.imgsz}')
 
             # Load model
         self.model = attempt_load('yolov7.pt', map_location=self.device)  # load FP32 model
@@ -91,98 +97,119 @@ class Receiver(Node):
 
         # create subscription to the publisher ******************************
         self.subscription = self.create_subscription(
-        Image, 
-        'video_frames', 
+        Bool, 
+        'framerate', 
         self.listener_callback, 
         1)
 
         self.subscription # prevent unused variable warning
         
-        # Used to convert between ROS and OpenCV images
-        self.br = CvBridge()
         self.frame_counter = 0
         self.trail_client = TrailClientNode()
+
+        # Create a VideoCapture object
+        self.cap = cv2.VideoCapture(os.path.join(SOURCE_PATH,'road_traffic.mp4'))
 
         #logfile
             # first erase contents
         with open('./traces/trail_subscriber', "w") as file:
             pass  # Do nothing, file is truncated
         self.logfile = open('./traces/trail_subscriber', "w")
-
+        self.batch = []
+        self.batchFull = False
 
 
     def listener_callback(self, msg):
+        if not msg.data:
+            self.trail_client.req.nframe = -1
 
-        self.logfile.write(f'{time.time()} : frames {self.frame_counter} just received\n')
+            trail_future = self.trail_client.cli.call_async(self.trail_client.req)
+            rclpy.spin_until_future_complete(self.trail_client, trail_future)
+            time.sleep(1)
+            sys.exit()
 
-        # Convert ROS Image message to OpenCV image
-        frame = self.br.imgmsg_to_cv2(msg)
-        
-        img = letterbox(frame, self.imgsz, self.stride)[0]
-        img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
-        img = np.ascontiguousarray(img)
+        ret, frame = self.cap.read()
 
-        # Frame formatting 
-        img = torch.from_numpy(img).to(self.device)
-        img = img.half() if self.half else img.float()  # uint8 to fp16/32
-        img /= 255.0  # 0 - 255 to 0.0 - 1.0
-        if img.ndimension() == 3:
-            img = img.unsqueeze(0)
+        if ret:
+            self.logfile.write(f'{time.time()} : frame {self.frame_counter} pace received\n')
 
-        # Warmup
-        if self.device.type != 'cpu' and (self.old_img_b != img.shape[0] or self.old_img_h != img.shape[2] or self.old_img_w != img.shape[3]):
-            self.old_img_b = img.shape[0]
-            self.old_img_h = img.shape[2]
-            self.old_img_w = img.shape[3]
-            for i in range(3):
-                self.model(img, augment=True)[0]
 
-        # Inference
-        with torch.no_grad():   # Calculating gradients would cause a GPU memory leak
-            pred = self.model(img, augment=True)[0]
+            # empty message request
+            self.trail_client.req.x_coord = []
+            self.trail_client.req.y_coord = []
+            self.trail_client.req.classes = []
+            self.trail_client.req.classes_confidence = []
 
-        # Non Max suppression 
-        pred = non_max_suppression(pred, 0.5, 0.5, classes=None, agnostic=True)
+            img = letterbox(frame, self.imgsz, self.stride)[0]
+            img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
+            img = np.ascontiguousarray(img)
 
-        # Process detections and add them to current frame
-        for i, det in enumerate(pred):
-            im0 = frame
+            # Frame formatting 
+            img = torch.from_numpy(img).to(self.device)
+            img = img.half() if self.half else img.float()  # uint8 to fp16/32
+            img /= 255.0  # 0 - 255 to 0.0 - 1.0
+            if img.ndimension() == 3:
+                img = img.unsqueeze(0)
 
-            gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
-            if len(det):
-                # Rescale boxes from img_size to im0 size
-                det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
+            # Inference
+            with torch.no_grad():   # Calculating gradients would cause a GPU memory leak
+                pred = self.model(img, augment=True)[0]
 
-                # Write results
-                for *xyxy, conf, cls in reversed(det):
-                    label = f'{self.names[int(cls)]} {conf:.2f}'
-                    plot_one_box(xyxy, im0, label=label, color=self.colors[int(cls)], line_thickness=1)
-            
+            if not self.batchFull:
+                self.batch.append(pred)
+                self.batchFull = (len(self.batch) == 3)
+            else:
 
-        
+                batchPred = (self.batch[0] + self.batch[1] + self.batch[2])/3.0
+                self.batch.pop(0)
+                self.batch.append(pred)
+                # Non Max suppression 
+                predNms = non_max_suppression(batchPred, 0.5, 0.5, classes=None, agnostic=True)
 
-        if not self.silent:
-            cv2.imshow('frame', im0)
-            # Press Q on keyboard to exit 
-            if cv2.waitKey(25) & 0xFF == ord('q'): 
-                return
+                # Process detections and add them to current frame
+                for i, det in enumerate(predNms):
+                    im0 = frame
 
-        # send data to reviewer node
-        self.trail_client.req.node_id = 1
-        self.trail_client.req.nframe = self.frame_counter
-        self.trail_client.req.x_coord = [1.0]
-        self.trail_client.req.y_coord = [1.0]
-        self.trail_client.req.classes = ['bus']
-        self.trail_client.req.classes_confidence = [0.9]
+                    gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
+                    if len(det):
+                        # Rescale boxes from img_size to im0 size
+                        det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
 
-        trail_future = self.trail_client.cli.call_async(self.trail_client.req)
-        rclpy.spin_until_future_complete(self.trail_client, trail_future)        
+                        # Write results
+                        for *xyxy, conf, cls in reversed(det):
+                            label = f'{self.names[int(cls)]} {conf:.2f}'
+                            plot_one_box(xyxy, im0, label=label, color=self.colors[int(cls)], line_thickness=1)
+                    
+                            xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                            self.trail_client.req.x_coord.append((float(xywh[0]) + (float(xywh[2])/2.0)))
+                            self.trail_client.req.y_coord.append((float(xywh[1]) + (float(xywh[3])/2.0)))
+                            self.trail_client.req.classes.append(int(cls))
+                            self.trail_client.req.classes_confidence.append(float(conf))
+                
 
-        self.logfile.write(f'{time.time()} : frames {self.frame_counter} just processed\n')
+                if not self.silent:
+                    cv2.imshow('frame', im0)
+                    # Press Q on keyboard to exit 
+                    if cv2.waitKey(25) & 0xFF == ord('q'): 
+                        return
+
+            # send data to reviewer node only after warmup
+            self.trail_client.req.node_id = 1
+            self.trail_client.req.nframe = self.frame_counter
+
+
+            trail_future = self.trail_client.cli.call_async(self.trail_client.req)
+            rclpy.spin_until_future_complete(self.trail_client, trail_future)        
+
+            self.logfile.write(f'{time.time()} : frame {self.frame_counter} just processed\n')
+        else: 
+            sys.exit()
+
         self.frame_counter+=1
 
     def __del__(self):
         self.logfile.close()
+        sys.exit()
 
 def main():
 

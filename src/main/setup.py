@@ -19,11 +19,12 @@ setup(
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': [
-            'publisher = pub.publisher:main',  
+        'console_scripts': [  
+            'publisher = pub.publisher:main',
             'main_subscriber = main_subscriber.instance1:main',  
             'trail_subscriber = trail_subscriber.instance2:main',
             'reviewer = reviewer.reviewer:main',
+            'tiebreaker = tiebreaker.instance3:main',
         ],
     },
 )
