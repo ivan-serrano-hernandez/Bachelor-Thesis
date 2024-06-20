@@ -1,8 +1,0 @@
-int16 nframe
-int16 node_id # 0 for main, 1 for trail
-float32[] x_coord
-float32[] y_coord
-string[] classes
-float32[] classes_confidence
----
-bool success

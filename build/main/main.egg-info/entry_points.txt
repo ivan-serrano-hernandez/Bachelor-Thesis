@@ -1,6 +1,0 @@
-[console_scripts]
-main_subscriber = main_subscriber.instance1:main
-publisher = pub.publisher:main
-reviewer = reviewer.reviewer:main
-trail_subscriber = trail_subscriber.instance2:main
-
