@@ -1,0 +1,27 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from custom_interface/srv/FrameInfo.srv
+// generated code does not contain a copyright notice
+
+
+module custom_interface {
+  module srv {
+    struct FrameInfo_Request {
+      int16 nframe;
+
+      @verbatim (language="comment", text=
+        "0 for main, 1 for trail")
+      int16 node_id;
+
+      sequence<float> x_coord;
+
+      sequence<float> y_coord;
+
+      sequence<string> classes;
+
+      sequence<float> classes_confidence;
+    };
+    struct FrameInfo_Response {
+      boolean success;
+    };
+  };
+};

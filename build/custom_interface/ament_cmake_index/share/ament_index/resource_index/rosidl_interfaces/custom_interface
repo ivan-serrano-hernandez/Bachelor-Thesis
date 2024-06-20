@@ -1,0 +1,4 @@
+srv/FrameInfo.idl
+srv/FrameInfo.srv
+srv/FrameInfo_Request.msg
+srv/FrameInfo_Response.msg

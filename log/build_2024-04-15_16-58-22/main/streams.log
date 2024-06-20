@@ -1,0 +1,36 @@
+[0.456s] Invoking command in '/home/iserran1/Documents/tfg/src/main': AMENT_PREFIX_PATH=/home/iserran1/Documents/tfg/install/custom_interface:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/iserran1/Documents/tfg/install/custom_interface LD_LIBRARY_PATH=/home/iserran1/Documents/tfg/install/custom_interface/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/iserran1/Documents/tfg/build/main/prefix_override:/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages:/home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/main build --build-base /home/iserran1/Documents/tfg/build/main/build install --record /home/iserran1/Documents/tfg/build/main/install.log --single-version-externally-managed install_data
+[0.640s] running egg_info
+[0.640s] writing ../../build/main/main.egg-info/PKG-INFO
+[0.641s] writing dependency_links to ../../build/main/main.egg-info/dependency_links.txt
+[0.641s] writing entry points to ../../build/main/main.egg-info/entry_points.txt
+[0.641s] writing requirements to ../../build/main/main.egg-info/requires.txt
+[0.641s] writing top-level names to ../../build/main/main.egg-info/top_level.txt
+[0.642s] reading manifest file '../../build/main/main.egg-info/SOURCES.txt'
+[0.642s] writing manifest file '../../build/main/main.egg-info/SOURCES.txt'
+[0.643s] running build
+[0.643s] running build_py
+[0.643s] copying main_subscriber/instance1.py -> /home/iserran1/Documents/tfg/build/main/build/lib/main_subscriber
+[0.643s] copying pub/publisher.py -> /home/iserran1/Documents/tfg/build/main/build/lib/pub
+[0.643s] copying reviewer/reviewer.py -> /home/iserran1/Documents/tfg/build/main/build/lib/reviewer
+[0.643s] copying trail_subscriber/instance2.py -> /home/iserran1/Documents/tfg/build/main/build/lib/trail_subscriber
+[0.643s] running install
+[0.643s] running install_lib
+[0.644s] copying /home/iserran1/Documents/tfg/build/main/build/lib/main_subscriber/instance1.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main_subscriber
+[0.644s] copying /home/iserran1/Documents/tfg/build/main/build/lib/pub/publisher.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/pub
+[0.644s] copying /home/iserran1/Documents/tfg/build/main/build/lib/reviewer/reviewer.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/reviewer
+[0.644s] copying /home/iserran1/Documents/tfg/build/main/build/lib/trail_subscriber/instance2.py -> /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/trail_subscriber
+[0.644s] byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main_subscriber/instance1.py to instance1.cpython-310.pyc
+[0.645s] byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/pub/publisher.py to publisher.cpython-310.pyc
+[0.646s] byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/reviewer/reviewer.py to reviewer.cpython-310.pyc
+[0.646s] byte-compiling /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/trail_subscriber/instance2.py to instance2.cpython-310.pyc
+[0.647s] running install_data
+[0.647s] running install_egg_info
+[0.648s] removing '/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main-0.0.0-py3.10.egg-info' (and everything under it)
+[0.648s] Copying ../../build/main/main.egg-info to /home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages/main-0.0.0-py3.10.egg-info
+[0.649s] running install_scripts
+[0.662s] Installing main_subscriber script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.662s] Installing publisher script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.662s] Installing reviewer script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.662s] Installing trail_subscriber script to /home/iserran1/Documents/tfg/install/main/lib/main
+[0.662s] writing list of installed files to '/home/iserran1/Documents/tfg/build/main/install.log'
+[0.678s] Invoked command in '/home/iserran1/Documents/tfg/src/main' returned '0': AMENT_PREFIX_PATH=/home/iserran1/Documents/tfg/install/custom_interface:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/iserran1/Documents/tfg/install/custom_interface LD_LIBRARY_PATH=/home/iserran1/Documents/tfg/install/custom_interface/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/iserran1/Documents/tfg/build/main/prefix_override:/home/iserran1/Documents/tfg/install/main/lib/python3.10/site-packages:/home/iserran1/Documents/tfg/install/custom_interface/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/main build --build-base /home/iserran1/Documents/tfg/build/main/build install --record /home/iserran1/Documents/tfg/build/main/install.log --single-version-externally-managed install_data
